@@ -25,8 +25,10 @@ void loop() {
   
   if (amplitude > threshold) {
     lcd.print(sensorValue); 
+    lcd.print("     ");
   } else {
     lcd.print("Off             ");
+    lcd.print("     ");
   }
 
   delay(100); 
