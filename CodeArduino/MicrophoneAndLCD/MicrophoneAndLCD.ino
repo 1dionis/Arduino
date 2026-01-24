@@ -10,7 +10,7 @@ int threshold = 30; // Порог чувствительности (разниц
 void setup() {
   lcd.begin(16, 2); // Указываем размер экрана
   lcd.setCursor(0, 0);
-  lcd.print("Monitor zvuka:");
+  lcd.print("Audio:");
 }
 
 void loop() {
@@ -24,9 +24,9 @@ void loop() {
   lcd.setCursor(0, 1);
   
   if (amplitude > threshold) {
-    lcd.print("Slyshno!        "); 
+    lcd.print(sensorValue); 
   } else {
-    lcd.print("Polnaya tishina ");
+    lcd.print("Off             ");
   }
 
   delay(100); 
