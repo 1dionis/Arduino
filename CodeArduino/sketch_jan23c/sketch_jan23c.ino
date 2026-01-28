@@ -8,7 +8,7 @@ const int buttonPin2 = 13;
 const int servoPin = 10;
 
 void setup() {
-myservo.attach(servoPin);
+myservo.attach(servoPin1);
 pinMode(buttonPin, INPUT_PULLUP);
 
 
