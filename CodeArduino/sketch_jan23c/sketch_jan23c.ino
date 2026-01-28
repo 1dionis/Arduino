@@ -12,6 +12,7 @@ const int servoPin = 10;
 
 
 bool servoState = 0;
+bool lastLight = 0;
 bool lastButton2 = HIGH;
 
 const int lightThreshold = 500;  
@@ -24,7 +25,6 @@ void setup() {
   lcd.begin(16, 2);
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("rtrt");
 
   Serial.begin(9600);
 
@@ -32,12 +32,15 @@ void setup() {
 }
 
 void loop() {
-  int lightValue = analogRead(photoPin);  // читаем уровень света
-  servoState = (lightValue > lightThreshold); // если свет больше порога → 1, иначе 0
+  int lightValue = analogRead(photoPin);
+  bool lightState = (lightValue > lightThreshold); // 1, если свет больше порога
+  // переключение состояния при изменении света
+  servoState ^= (lightState & !lastLight);
+  lastLight = lightState;
   myServo.write(servoState * 180);
 
 if (digitalRead(buttonPin2) == LOW) {
-    lcd.println("Кнопка нажата");
+    lcd.println("hdsvbdu");
     delay(300); // чтобы не спамило
   }
 
