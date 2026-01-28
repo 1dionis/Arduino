@@ -3,7 +3,6 @@
 #include <LedControl.h>
 #include <LiquidCrystal.h>
 
-Servo myServo;
 
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
