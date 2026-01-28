@@ -36,7 +36,7 @@ void loop() {
  myServo.write(servoState * 180);
 
 if (digitalRead(buttonPin2) == LOW) {
-    Serial.println("Кнопка нажата");
+    lcd.println("Кнопка нажата");
     delay(300); // чтобы не спамило
   }
 
