@@ -3,9 +3,12 @@
 #include <LedControl.h>
 #include <LiquidCrystal.h>
 
+<<<<<<< Updated upstream
 Servo myServo;
 
 ///sdsadas
+=======
+>>>>>>> Stashed changes
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 const int buttonPin1 = 8;
 const int buttonPin2 = 13;
