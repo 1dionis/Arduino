@@ -24,7 +24,7 @@ myServo.write(0);
 }
 
 void loop() {
-  bool button = digitalRead(buttonPin);
+  bool button = digitalRead(buttonPin1);
 
   servoState ^= (!button & lastButton);  // переключение по нажатию
   lastButton = button;
