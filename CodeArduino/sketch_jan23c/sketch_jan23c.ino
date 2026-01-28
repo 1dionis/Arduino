@@ -10,6 +10,10 @@ const int buttonPin1 = 8;
 const int buttonPin2 = 13;
 const int servoPin = 10;
 
+
+bool servoState = 0;
+bool lastButton = 1;
+
 void setup() {
 pinMode(buttonPin1, INPUT_PULLUP);
 myServo.attach(servoPin);
