@@ -1,11 +1,12 @@
 #include <AccelStepper.h>
 #include <Servo.h>
 #include <LedControl.h>
+#include <LiquidCrystal.h>
 
 Servo myServo;
 
 
-LiquidCrystal lcd(12, 5, 4, 3, 2);
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 const int buttonPin1 = 8;
 const int buttonPin2 = 13;
 const int servoPin = 10;
