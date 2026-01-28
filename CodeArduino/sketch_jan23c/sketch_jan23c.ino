@@ -2,8 +2,8 @@
 
 Servo myServo;
 
-const int buttonPin = 2;
-const int servoPin  = 9;
+const int buttonPin = 8;
+const int servoPin  = 10;
 
 void setup() {
   pinMode(buttonPin, INPUT_PULLUP); // кнопка на GND
