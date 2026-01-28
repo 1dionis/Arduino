@@ -5,7 +5,7 @@
 
 Servo myServo;
 
-
+///sdsadas
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 const int buttonPin1 = 8;
 const int buttonPin2 = 13;
