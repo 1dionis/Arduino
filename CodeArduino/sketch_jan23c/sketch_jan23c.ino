@@ -15,7 +15,7 @@ bool servoState = 0;
 bool lastLight = 0;
 bool lastButton2 = HIGH;
 
-const int lightThreshold = 500;  
+const int lightThreshold = 150;  
 
 void setup() {
  pinMode(buttonPin2, INPUT_PULLUP);
@@ -39,7 +39,7 @@ void loop() {
   lastLight = lightState;
   myServo.write(servoState * 180);
 
-if (digitalRead(buttonPin2) == LOW) {
+if (digitalRead(buttonPin2) == HIGH) {
     lcd.println("hdsvbdu");
     delay(300); // чтобы не спамило
   }
