@@ -6,34 +6,35 @@
 Servo myServo;
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-const int buttonPin1 = 8;
+const int photoPin = A0;
 const int buttonPin2 = 13;
 const int servoPin = 10;
 
 
 bool servoState = 0;
-bool lastButton = 1;
+bool lastButton2 = HIGH;
+
+const int lightThreshold = 500;  
 
 void setup() {
-pinMode(buttonPin1, INPUT_PULLUP);
-myServo.attach(servoPin);
-myServo.write(0);
-lcd.begin(16, 2);
-lcd.clear();
-lcd.setCursor(0, 0);
-pinMode(buttonPin2, INPUT_PULLUP);
-Serial.begin(9600);
+ pinMode(buttonPin2, INPUT_PULLUP);
+  myServo.attach(servoPin);
+  myServo.write(0);
+
+  lcd.begin(16, 2);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("rtrt");
+
+  Serial.begin(9600);
 
 
 }
 
 void loop() {
-  bool button = digitalRead(buttonPin1);
-
-  servoState ^= (!button & lastButton);  // переключение по нажатию
-  lastButton = button;
-
- myServo.write(servoState * 180);
+  int lightValue = analogRead(photoPin);  // читаем уровень света
+  servoState = (lightValue > lightThreshold); // если свет больше порога → 1, иначе 0
+  myServo.write(servoState * 180);
 
 if (digitalRead(buttonPin2) == LOW) {
     lcd.println("Кнопка нажата");
