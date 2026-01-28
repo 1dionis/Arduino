@@ -18,6 +18,9 @@ void setup() {
 pinMode(buttonPin1, INPUT_PULLUP);
 myServo.attach(servoPin);
 myServo.write(0);
+lcd.begin(16, 2);
+lcd.clear();
+lcd.setCursor(0, 0);
 pinMode(buttonPin2, INPUT_PULLUP);
 Serial.begin(9600);
 
@@ -31,6 +34,7 @@ void loop() {
   lastButton = button;
 
  myServo.write(servoState * 180);
+
 if (digitalRead(buttonPin2) == LOW) {
     Serial.println("Кнопка нажата");
     delay(300); // чтобы не спамило
