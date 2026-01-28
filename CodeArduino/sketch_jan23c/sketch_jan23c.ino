@@ -1,44 +1,34 @@
-#include <AccelStepper.h>
-#include <Servo.h>
-#include <LedControl.h>
 #include <LiquidCrystal.h>
 
-Servo myServo;
-
+// Инициализация экрана
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-const int photoPin = A0;
-const int buttonPin2 = 13;
-const int servoPin = 10;
 
-
-bool servoState = 0;
-bool lastButton2 = HIGH;
-
-const int lightThreshold = 500;  
+const int sensorPin = A0; // Пин фоторезистора
+int sensorValue = 0;      // Переменная для хранения данных
+int threshold = 150;      // Порог (настрой под свой свет)
 
 void setup() {
- pinMode(buttonPin2, INPUT_PULLUP);
-  myServo.attach(servoPin);
-  myServo.write(0);
-
   lcd.begin(16, 2);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("rtrt");
-
-  Serial.begin(9600);
-
-
+  lcd.print("Light Test:");
+  delay(1000);
 }
 
 void loop() {
-  int lightValue = analogRead(photoPin);  // читаем уровень света
-  servoState = (lightValue > lightThreshold); // если свет больше порога → 1, иначе 0
-  myServo.write(servoState * 180);
+  sensorValue = analogRead(sensorPin); // Читаем значение от 0 до 1023
 
-if (digitalRead(buttonPin2) == LOW) {
-    lcd.println("Кнопка нажата");
-    delay(300); // чтобы не спамило
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  
+  // Выводим цифровое значение для настройки
+  lcd.print("Val: ");
+  lcd.print(sensorValue);
+
+  lcd.setCursor(0, 1);
+  if (sensorValue > threshold) {
+    lcd.print("LIGHT ON (Svetit)");
+  } else {
+    lcd.print("DARK (Ne svetit)");
   }
 
+  delay(300); // Чтобы текст не мелькал слишком быстро
 }
