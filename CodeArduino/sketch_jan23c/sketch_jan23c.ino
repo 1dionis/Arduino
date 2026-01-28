@@ -3,6 +3,7 @@
 #include <LedControl.h>
 #include <LiquidCrystal.h>
 
+Servo myServo;
 
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
@@ -12,7 +13,7 @@ const int servoPin = 10;
 
 void setup() {
 pinMode(buttonPin1, INPUT_PULLUP);
-myservo.attach(servoPin1);
+myServo.attach(servoPin);
 
 
 
