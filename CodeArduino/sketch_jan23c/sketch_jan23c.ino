@@ -17,6 +17,6 @@ pinMode(buttonPin, INPUT_PULLUP);
 }
 
 void loop() {
-myServo.write(digitalRead(buttonPin);
+myServo.write(digitalRead(buttonPin)*180);
 
 }
