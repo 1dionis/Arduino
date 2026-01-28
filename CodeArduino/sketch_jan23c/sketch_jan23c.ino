@@ -3,12 +3,8 @@
 #include <LedControl.h>
 #include <LiquidCrystal.h>
 
-<<<<<<< Updated upstream
 Servo myServo;
 
-///sdsadas
-=======
->>>>>>> Stashed changes
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 const int buttonPin1 = 8;
 const int buttonPin2 = 13;
@@ -24,10 +20,10 @@ myServo.write(0);
 }
 
 void loop() {
-bool button = digitalRead(buttonPin);
+  bool button = digitalRead(buttonPin);
 
   servoState ^= (!button & lastButton);  // переключение по нажатию
   lastButton = button;
 
-  myServo.write(servoState * 90);
+  myServo.write(servoState * 180);
 }
