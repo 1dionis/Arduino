@@ -21,6 +21,6 @@ myServo.attach(servoPin);
 }
 
 void loop() {
-myServo.write(digitalRead(buttonPin1)*180);
+myServo.write(!digitalRead(buttonPin1)*180);
 
 }
