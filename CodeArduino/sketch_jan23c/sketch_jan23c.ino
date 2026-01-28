@@ -10,7 +10,6 @@ const int servoPin = 10;
 void setup() {
 myservo.attach(servoPin);
 pinMode(buttonPin, INPUT_PULLUP);
-myServo.write(digitalRead(buttonPin);
 
 
 
@@ -18,5 +17,6 @@ myServo.write(digitalRead(buttonPin);
 }
 
 void loop() {
+myServo.write(digitalRead(buttonPin);
 
 }
