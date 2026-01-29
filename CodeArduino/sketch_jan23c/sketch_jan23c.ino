@@ -2,6 +2,7 @@
 #include <Servo.h>
 #include <LedControl.h>
 #include <LiquidCrystal.h>
+#include <IRremote.h>
 
 Servo myServo;
 
