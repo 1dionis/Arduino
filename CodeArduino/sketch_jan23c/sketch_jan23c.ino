@@ -1,62 +1,46 @@
 #include <SPI.h>
 #include <MFRC522.h>
-#include <LiquidCrystal.h>
-#include <Servo.h>
 
-// Настройки пинов
-#define RST_PIN         9          
+// Ваши пины согласно предыдущей схеме
+#define RST_PIN         7          
 #define SS_PIN          10         
-#define BUTTON_PIN      A0
-#define SERVO_PIN       8
 
-// Углы поворота серво (подберите под свою конструкцию)
-#define SERVO_IDLE      0    // Исходное положение
-#define SERVO_PRESS     45   // Положение при нажатии кнопки
-
-MFRC522 mfrc522(SS_PIN, RST_PIN);  
-LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
-Servo myServo;
+MFRC522 mfrc522(SS_PIN, RST_PIN);  // Создаем объект модуля
 
 void setup() {
   Serial.begin(9600);
-  SPI.begin();           
-  mfrc522.PCD_Init();    
+  SPI.begin();
+  mfrc522.PCD_Init();
+
+  Serial.println(F("--- Тест связи с RC522 ---"));
   
-  lcd.begin(16, 2);
-  lcd.print("Ready...");
-
-  myServo.attach(SERVO_PIN);
-  myServo.write(SERVO_IDLE); // Ставим серво в исходное
-
-  // Кнопку подключаем с внутренней подтяжкой (INPUT_PULLUP)
-  // При нажатии на кнопку на пине будет LOW (0)
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  // Выполняем самодиагностику
+  mfrc522.PCD_DumpVersionToSerial(); 
 }
 
 void loop() {
-  // Сначала проверяем нажатие кнопки (нажал ли её сервопривод)
-  if (digitalRead(BUTTON_PIN) == LOW) {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Button Pressed!");
-    lcd.setCursor(0, 1);
-    lcd.print("Access Granted");
-    delay(2000); // Ждем 2 секунды
-    lcd.clear();
-    lcd.print("Ready...");
+  // Проверка: поднесена ли новая карта?
+  if ( ! mfrc522.PICC_IsNewCardPresent()) {
+    return;
   }
 
-  // Проверка RFID метки
-  if (!mfrc522.PICC_IsNewCardPresent()) return;
-  if (!mfrc522.PICC_ReadCardSerial()) return;
+  // Проверка: можно ли считать данные с карты?
+  if ( ! mfrc522.PICC_ReadCardSerial()) {
+    return;
+  }
 
-  // Если карта поднесена - двигаем сервопривод
-  lcd.clear();
-  lcd.print("Card Detected!");
+  // Если мы здесь — карта обнаружена!
+  Serial.print(F("Ура! Ключ обнаружен. UID карты:"));
+
+  // Выводим UID в шестнадцатеричном формате
+  for (byte i = 0; i < mfrc522.uid.size; i++) {
+    Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+    Serial.print(mfrc522.uid.uidByte[i], HEX);
+  }
   
-  myServo.write(SERVO_PRESS); // Серво нажимает на кнопку
-  delay(1000);                // Держим секунду
-  myServo.write(SERVO_IDLE);  // Возвращаем серво назад
-  
-  mfrc522.PICC_HaltA();       // Останавливаем чтение карты
+  Serial.println();
+  Serial.println(F("------------------------------------"));
+
+  // Остановка чтения (чтобы не дублировать вывод одной и той же карты)
+  mfrc522.PICC_HaltA();
 }
