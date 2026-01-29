@@ -15,9 +15,7 @@ bool servoState = 0;
 bool lastIR = 0;
 bool lastButton2 = HIGH;
 
-// ===== ИК-приёмник =====
-IRrecv irrecv(irPin);
-decode_results results;
+
 
 void setup() {
   pinMode(buttonPin2, INPUT_PULLUP);
@@ -31,7 +29,7 @@ void setup() {
 
   Serial.begin(9600);
 
-  irrecv.enableIRIn();   // ← запуск ИК
+IrReceiver.begin(irPin, ENABLE_LED_FEEDBACK);
 }
 
 void loop() {
@@ -39,9 +37,9 @@ void loop() {
   // ===== ИК ПУЛЬТ (вместо фоторезистора) =====
   bool irState = false;
 
-  if (irrecv.decode(&results)) {
-    irState = true;          // кнопка нажата
-    irrecv.resume();         // готов к следующему сигналу
+  if (IrReceiver.decode()) {
+    irState = true;
+    IrReceiver.resume();
   }
 
   servoState ^= (irState & !lastIR);
