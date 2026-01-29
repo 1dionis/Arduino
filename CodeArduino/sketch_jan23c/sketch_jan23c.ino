@@ -1,15 +1,17 @@
-#include <IRremote.h>
+#include "IRremote.h"
+
+IRrecv irrecv(2); // указываем вывод, к которому подключен приемник
+
+decode_results results;
 
 void setup() {
-  Serial.begin(9600);
-  IrReceiver.begin(A0, ENABLE_LED_FEEDBACK); // A0 — ваш пин
-  Serial.println("Ozidanie...");
+  Serial.begin(9600); // выставляем скорость COM порта
+  irrecv.enableIRIn(); // запускаем прием
 }
 
 void loop() {
-  if (IrReceiver.decode()) {
-    Serial.print("COD knopki: ");
-    Serial.println(IrReceiver.decodedIRData.command, HEX); 
-    IrReceiver.resume(); 
+  if ( irrecv.decode( &results )) { // если данные пришли
+    Serial.println( results.value, HEX ); // печатаем данные
+    irrecv.resume(); // принимаем следующую команду
   }
 }
