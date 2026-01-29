@@ -1,17 +1,16 @@
-#include "IRremote.h"
-
-IRrecv irrecv(2); // указываем вывод, к которому подключен приемник
-
-decode_results results;
+#include <IRremote.h>
 
 void setup() {
-  Serial.begin(9600); // выставляем скорость COM порта
-  irrecv.enableIRIn(); // запускаем прием
+  Serial.begin(9600);
+  // Пробуем инициализацию на 11 пине
+  IrReceiver.begin(11, ENABLE_LED_FEEDBACK); 
+  Serial.println("Система запущена. Жду сигнал...");
 }
 
 void loop() {
-  if ( irrecv.decode( &results )) { // если данные пришли
-    Serial.println( results.value, HEX ); // печатаем данные
-    irrecv.resume(); // принимаем следующую команду
+  if (IrReceiver.decode()) {
+    Serial.print("УРА! Поймал код: ");
+    Serial.println(IrReceiver.decodedIRData.command, HEX);
+    IrReceiver.resume();
   }
 }
