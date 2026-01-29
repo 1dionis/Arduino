@@ -7,7 +7,7 @@
 Servo myServo;
 
 LiquidCrystal lcd(6, 7, 5, 4, 3, 2);
-const int irPin = A0;        // ← БЫЛ photoPin
+const int irPin = 11;        // ← БЫЛ photoPin
 const int buttonPin2 = 9;
 const int servoPin = 8;
 
