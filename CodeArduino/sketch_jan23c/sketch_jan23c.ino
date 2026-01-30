@@ -1,33 +1,25 @@
-#define BTN_ON  7
-#define BTN_OFF 8
+#define BTN_ON 2
+#define BTN_OFF 3
 
-bool motors = false;
+bool motors = false; // состояние моторчиков
 
 void setup() {
-  pinMode(BTN_ON, INPUT_PULLUP);
-  pinMode(BTN_OFF, INPUT_PULLUP);
-
-  pinMode(LED_BUILTIN, OUTPUT); // встроенный светодиод для проверки
-  digitalWrite(LED_BUILTIN, LOW);
+  pinMode(BTN_ON, INPUT_PULLUP);  // кнопка ВКЛ
+  pinMode(BTN_OFF, INPUT_PULLUP); // кнопка ВЫКЛ
+  pinMode(LED_BUILTIN, OUTPUT);   // индикатор
 }
 
 void loop() {
-  // проверяем кнопку ВКЛ
+  // Если нажата кнопка ВКЛ — включаем моторы
   if (digitalRead(BTN_ON) == LOW) {
     motors = true;
-    delay(200); // небольшая задержка, чтобы кнопка не «дребезжала»
   }
 
-  // проверяем кнопку ВЫКЛ
+  // Если нажата кнопка ВЫКЛ — выключаем моторы
   if (digitalRead(BTN_OFF) == LOW) {
     motors = false;
-    delay(200); // небольшая задержка
   }
 
-  // включаем или выключаем LED по состоянию
-  if (motors) {
-    digitalWrite(LED_BUILTIN, HIGH);
-  } else {
-    digitalWrite(LED_BUILTIN, LOW);
-  }
+  // Индикатор состояния моторчиков
+  digitalWrite(LED_BUILTIN, motors ? HIGH : LOW);
 }
