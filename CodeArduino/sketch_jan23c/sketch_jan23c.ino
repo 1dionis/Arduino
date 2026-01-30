@@ -1,54 +1,54 @@
-#include <AccelStepper.h>
-#include <Servo.h>
-#include <LedControl.h>
-#include <LiquidCrystal.h>
-#include <IRremote.h>   // ← добавлено
+// ===== КНОПКИ =====
+const int buttonOn  = 7;
+const int buttonOff = 8;
 
-Servo myServo;
+// ===== МОЩНОСТЬ МОТОРОВ (0 - 255) =====
+int motorPower = 150;   // ← МЕНЯЙ ЗДЕСЬ СКОРОСТЬ
 
-LiquidCrystal lcd(6, 7, 5, 4, 3, 2);
-const int irPin = 11;        // ← БЫЛ photoPin
-const int buttonPin2 = 9;
-const int servoPin = 8;
+// ===== МОТОРЫ =====
+int EN[] = {5, 9, 10, 11};     // PWM пины
+int IN1[] = {6, 8, 12, A0};
+int IN2[] = {7, 10, 13, A1};
 
-bool servoState = 0;
-bool lastIR = 0;
-bool lastButton2 = HIGH;
-
-
+bool motorsOn = false;
 
 void setup() {
-  pinMode(buttonPin2, INPUT_PULLUP);
+  pinMode(buttonOn, INPUT_PULLUP);
+  pinMode(buttonOff, INPUT_PULLUP);
 
-  myServo.attach(servoPin);
-  myServo.write(0);
-
-  lcd.begin(16, 2);
-  lcd.clear();
-  lcd.setCursor(0, 0);
-
-  Serial.begin(9600);
-
-IrReceiver.begin(irPin, ENABLE_LED_FEEDBACK);
+  for (int i = 0; i < 4; i++) {
+    pinMode(EN[i], OUTPUT);
+    pinMode(IN1[i], OUTPUT);
+    pinMode(IN2[i], OUTPUT);
+  }
 }
 
 void loop() {
-
-  // ===== ИК ПУЛЬТ (вместо фоторезистора) =====
-  bool irState = false;
-
-  if (IrReceiver.decode()) {
-    irState = true;
-    IrReceiver.resume();
+  if (digitalRead(buttonOn) == LOW) {
+    motorsOn = true;
   }
 
-  servoState ^= (irState & !lastIR);
-  lastIR = irState;
-  myServo.write(servoState * 180);
+  if (digitalRead(buttonOff) == LOW) {
+    motorsOn = false;
+  }
 
-  // ===== КНОПКА =====
-  if (digitalRead(buttonPin2) == HIGH) {
-    lcd.println("hdsvbdu");
-    delay(300);
+  if (motorsOn) {
+    turnMotorsOn();
+  } else {
+    turnMotorsOff();
+  }
+}
+
+void turnMotorsOn() {
+  for (int i = 0; i < 4; i++) {
+    digitalWrite(IN1[i], HIGH);
+    digitalWrite(IN2[i], LOW);
+    analogWrite(EN[i], motorPower);
+  }
+}
+
+void turnMotorsOff() {
+  for (int i = 0; i < 4; i++) {
+    analogWrite(EN[i], 0);
   }
 }
