@@ -1,12 +1,22 @@
-void setup() {
-  pinMode(5, OUTPUT); // ENA
-  pinMode(6, OUTPUT); // IN1
-  pinMode(7, OUTPUT); // IN2
+#define BTN_ON  2
+#define BTN_OFF 3
 
-  digitalWrite(6, HIGH);
-  digitalWrite(7, LOW);
-  analogWrite(5, 200);
+bool motors = false;
+
+void setup() {
+  pinMode(BTN_ON, INPUT_PULLUP);
+  pinMode(BTN_OFF, INPUT_PULLUP);
+
+  pinMode(LED_BUILTIN, OUTPUT); // в качестве индикатора работы
 }
 
 void loop() {
+  if (digitalRead(BTN_ON) == LOW) motors = true;
+  if (digitalRead(BTN_OFF) == LOW) motors = false;
+
+  if (motors) {
+    digitalWrite(LED_BUILTIN, HIGH); // имитация включения моторчиков
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);  // имитация выключения
+  }
 }
