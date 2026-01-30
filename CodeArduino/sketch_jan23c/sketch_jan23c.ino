@@ -1,5 +1,5 @@
-#define BTN_ON  7;
-#define BTN_OFF 8;
+#define BTN_ON  7
+#define BTN_OFF 8
 
 bool motors = false;
 
